@@ -28,7 +28,7 @@ vim.opt.incsearch = true                           -- Show matches as you type
 
 -- Visual settings
 vim.opt.termguicolors = true                       -- Enable 24-bit colors
-vim.opt.signcolumn = "yes"                          -- Always show sign column
+vim.opt.signcolumn = "no"                          -- Always show sign column
 --vim.opt.colorcolumn = "80"                         -- Show column at 100 characters
 vim.opt.cmdheight = 1                              -- Command line height
 vim.opt.completeopt = "menuone,noinsert,noselect"  -- Completion options 
