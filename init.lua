@@ -76,7 +76,8 @@ vim.opt.guicursor = "n-v-c:block,i-ci:ver25,r-cr:ver25,o:hor20,a:blinkwait700-bl
 
 -- Modifications --
 
-
+--remap <Esc> to jj
+vim.keymap.set("i", "jj", "<Esc>", { desc = "Esc" })
 
 -- Center screen when jumping
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
