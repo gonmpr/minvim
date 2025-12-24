@@ -5,7 +5,7 @@ vim.cmd.colorscheme("habamax")
 -- Basic settings
 vim.opt.number = true                              -- Line numbers
 vim.opt.relativenumber = true                      -- Relative line numbers
-vim.opt.cursorline = false                         -- Highlight current line
+vim.opt.cursorline = true                         -- Highlight current line
 vim.opt.wrap = false                               -- Don't wrap lines
 vim.opt.scrolloff = 8                              -- Keep 10 lines above/below cursor 
 vim.opt.sidescrolloff = 8                          -- Keep 8 columns left/right of cursor
@@ -73,8 +73,10 @@ vim.opt.guicursor = "n-v-c:block,i-ci:ver25,r-cr:ver25,o:hor20,a:blinkwait700-bl
 
 
 
-
+-------------------
 -- Modifications --
+-------------------
+
 
 --remap <Esc> to jj
 vim.keymap.set("i", "jj", "<Esc>", { desc = "Esc" })
@@ -115,7 +117,7 @@ vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 
 -- Quick file navigation
 vim.keymap.set("n", "<leader>e", ":Explore<CR>", { desc = "Open file explorer" })
--- vim.keymap.set("n", "ff", ":find ", { desc = "Find file" })
+-- vim.keymap.set("n", ",<leader>f", ":find ", { desc = "Find file" })
 
 
 -- Return to last edit position when opening files
@@ -132,6 +134,27 @@ vim.api.nvim_create_autocmd("BufReadPost", {
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
     end
   end,
+})
+
+
+-- No auto continue comments on new line
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("no_auto_comment", {}),
+	callback = function()
+		vim.opt_local.formatoptions:remove({ "c", "r", "o" })
+	end,
+})
+
+
+
+-- Highlight yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
+	pattern = "*",
+	desc = "highlight selection on yank",
+	callback = function()
+		vim.highlight.on_yank({ timeout = 200, visual = true })
+	end,
 })
 
 
