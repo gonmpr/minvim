@@ -1,5 +1,18 @@
---theme
+---------
+--Theme--
+---------
+
 vim.cmd.colorscheme("habamax")
+
+-- Cursor blink
+vim.opt.guicursor = "n-v-c:block,i-ci:ver25,r-cr:ver25,o:hor20,a:blinkwait700-blinkoff400-blinkon250"
+
+-- matching color
+vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FFFFFF', bg = 'NONE',})
+
+--------------------
+--General-settings--
+--------------------
 
 
 -- Basic settings
@@ -28,7 +41,7 @@ vim.opt.incsearch = true                           -- Show matches as you type
 
 -- Visual settings
 vim.opt.termguicolors = true                       -- Enable 24-bit colors
-vim.opt.signcolumn = "no"                          -- Always show sign column
+vim.opt.signcolumn = "auto"                          -- Always show sign column
 --vim.opt.colorcolumn = "80"                         -- Show column at 100 characters
 vim.opt.cmdheight = 1                              -- Command line height
 vim.opt.completeopt = "menuone,noinsert,noselect"  -- Completion options 
@@ -37,8 +50,6 @@ vim.opt.conceallevel = 0                           -- Don't hide markup
 vim.opt.concealcursor = ""                         -- Don't hide cursor line markup 
 vim.opt.lazyredraw = true                          -- Don't redraw during macros
 vim.opt.synmaxcol = 300                            -- Syntax highlighting limit
--- Colors
-vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FFFFFF', bg = 'NONE',})
 
 
 
@@ -60,42 +71,52 @@ vim.opt.hidden = true                              -- Allow hidden buffers
 vim.opt.errorbells = false                         -- No error bells
 vim.opt.backspace = "indent,eol,start"             -- Better backspace behavior
 vim.opt.autochdir = false                          -- Don't auto change directory
-vim.opt.iskeyword:append("_")                      -- Treat dash as part of word
-vim.opt.path:append("**")                          -- include subdirectories in search
 vim.opt.selection = "exclusive"                    -- Selection behavior
 vim.opt.mouse = "a"                                -- Enable mouse support
 vim.opt.clipboard:append("unnamedplus")            -- Use system clipboard
 vim.opt.modifiable = true                          -- Allow buffer modifications
 vim.opt.encoding = "UTF-8"                         -- Set encoding
+vim.opt.path:append("**")                          -- include subdirectories in search
 
--- Cursor blink
-vim.opt.guicursor = "n-v-c:block,i-ci:ver25,r-cr:ver25,o:hor20,a:blinkwait700-blinkoff400-blinkon250"
+-----------
+--Require--
+-----------
+require("config.explorer")
 
+----------------
+--Key mappings--
+----------------
 
-
--------------------
--- Modifications --
--------------------
+vim.g.mapleader = " "                              -- Set leader key to space
+vim.g.maplocalleader = " "                         -- Set local leader key (NEW)
 
 
 --remap <Esc> to jj
 vim.keymap.set("i", "jj", "<Esc>", { desc = "Esc" })
 
+------------
+--Behavior--
+------------
+
+-- Status line
+vim.opt.statusline = "[%<%.20f][%{&fenc==''?&enc:&fenc}]%y%m%r%h%=%([Line: %l Column: %c %P]%)"
+
+-- Replace all instances of highlighted words
+vim.keymap.set("v", "<leader>r", "\"hy:%s/<C-r>h//g<left><left>")			
+
+
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")	-- Move current line down
+vim.keymap.set("v", "K", ":m '>-2<CR>gv=gv")	-- Move current line up
+
+
 -- Center screen when jumping
-vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result (centered)" })
-vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Half page down (centered)" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centered)" })
 
 
--- Key mappings
-vim.g.mapleader = " "                              -- Set leader key to space
-vim.g.maplocalleader = " "                         -- Set local leader key (NEW)
-
-
 -- Buffer navigation
-vim.keymap.set("n", "<leader>n", ":bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>b", ":bprevious<CR>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
 
 
 -- Better window navigation
@@ -114,11 +135,8 @@ vim.keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
 vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 
 
-
--- Quick file navigation
-vim.keymap.set("n", "<leader>e", ":Explore<CR>", { desc = "Open file explorer" })
--- vim.keymap.set("n", ",<leader>f", ":find ", { desc = "Find file" })
-
+-- Open netrw(file explorer) in 20% split in tree view
+vim.keymap.set("n", "<leader>e", ":20Lexplore<CR>", { desc = "Open left side file explorer"})
 
 -- Return to last edit position when opening files
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -157,8 +175,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+---------------
+--Performance--
+---------------
 
--- Performance improvements
 vim.opt.redrawtime = 10000
 vim.opt.maxmempattern = 20000
 
