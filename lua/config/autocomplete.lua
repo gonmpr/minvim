@@ -1,6 +1,8 @@
 
 vim.opt.pumheight = 3
 vim.opt.completeopt = { "menuone", "popup", "fuzzy", "noselect" }
+vim.opt.complete = "."
+
 
 vim.api.nvim_create_autocmd('InsertCharPre', {
   callback = function()
@@ -8,15 +10,9 @@ vim.api.nvim_create_autocmd('InsertCharPre', {
       return
     end
 
-    local clients = vim.lsp.get_clients({ bufnr = 0 })
-
-    if next(clients) ~= nil then
-      vim.lsp.completion.get()
-    else
-      local key = vim.keycode('<C-x><C-n>')
-      vim.api.nvim_feedkeys(key, 'm', false)
+    local key = vim.keycode('<C-x><C-n>')
+    vim.api.nvim_feedkeys(key, 'm', false)
     end
-  end
 })
 
 vim.keymap.set("i", "<tab>", function()
@@ -28,13 +24,3 @@ vim.keymap.set("i", "<tab>", function()
 end, {})
 
 
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    vim.lsp.completion.enable(true, args.data.client_id, args.buf, {
-      autotrigger = false,
-      convert = function(item)
-        return { abbr = item.label }
-      end,
-    })
-  end,
-})
