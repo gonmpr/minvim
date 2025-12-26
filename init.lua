@@ -10,9 +10,6 @@ vim.opt.guicursor = "n-v-c:block,i-ci:ver25,r-cr:ver25,o:hor20,a:blinkwait700-bl
 -- matching color
 vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FFFFFF', bg = 'NONE',})
 
--- Status line
--- vim.o.statusline = [[%<%f %h%m%r %y%=%{v:register} %-14.(%l,%c%V%) %P]]
-require("config.statusbar")
 --------------------
 --General-settings--
 --------------------
@@ -89,6 +86,7 @@ vim.opt.path:append("**")                          -- include subdirectories in 
 
 require("config.explorer")
 require("config.autocomplete")
+require("config.statusbar")
 
 
 ----------------
@@ -107,6 +105,14 @@ vim.keymap.set("i", "jj", "<Esc>", { desc = "Esc" })
 ------------
 --Behavior--
 ------------
+
+
+-- Automatically close quotes, brackets, etc.
+vim.keymap.set('i', "'", "''<left>", { noremap = true, silent = true })
+vim.keymap.set('i', '"', '""<left>', { noremap = true, silent = true })
+vim.keymap.set('i', "(", "()<left>", { noremap = true, silent = true })
+vim.keymap.set('i', "[", "[]<left>", { noremap = true, silent = true })
+vim.keymap.set('i', "{", "{}<left>", { noremap = true, silent = true })
 
 
 -- Replace all instances of highlighted words
@@ -194,5 +200,3 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 vim.opt.redrawtime = 10000
 vim.opt.maxmempattern = 20000
-
-
