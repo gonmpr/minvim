@@ -1,8 +1,7 @@
 
 vim.opt.pumheight = 3
-vim.opt.completeopt = { "menuone", "popup", "fuzzy", "noselect" }
-vim.opt.complete = "."
-
+vim.opt.completeopt = { "menuone", "popup", "fuzzy","noselect" }
+vim.opt.complete = ".,b"
 
 vim.api.nvim_create_autocmd('InsertCharPre', {
   callback = function()
@@ -10,7 +9,7 @@ vim.api.nvim_create_autocmd('InsertCharPre', {
       return
     end
 
-    local key = vim.keycode('<C-x><C-n>')
+    local key = vim.keycode('<C-n>')
     vim.api.nvim_feedkeys(key, 'm', false)
     end
 })
