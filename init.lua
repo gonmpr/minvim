@@ -10,6 +10,10 @@ vim.opt.guicursor = "n-v-c:block,i-ci:ver25,r-cr:ver25,o:hor20,a:blinkwait700-bl
 -- matching color
 vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FFFFFF', bg = 'NONE',})
 
+-- Status line
+vim.opt.statusline = "[%<%.20f][%{&fenc==''?&enc:&fenc}]%y%m%r%h%=%([Line: %l Column: %c %P]%)"
+
+
 --------------------
 --General-settings--
 --------------------
@@ -42,7 +46,7 @@ vim.opt.incsearch = true                           -- Show matches as you type
 -- Visual settings
 vim.opt.termguicolors = true                       -- Enable 24-bit colors
 vim.opt.signcolumn = "auto"                          -- Always show sign column
---vim.opt.colorcolumn = "80"                         -- Show column at 100 characters
+-- vim.opt.colorcolumn = "80"                         -- Show column at 100 characters
 vim.opt.cmdheight = 1                              -- Command line height
 vim.opt.completeopt = "menuone,noinsert,noselect"  -- Completion options 
 vim.opt.showmode = false                           -- Don't show mode in command line 
@@ -78,14 +82,20 @@ vim.opt.modifiable = true                          -- Allow buffer modifications
 vim.opt.encoding = "UTF-8"                         -- Set encoding
 vim.opt.path:append("**")                          -- include subdirectories in search
 
+
 -----------
 --Require--
 -----------
+
+
 require("config.explorer")
+require("config.autocomplete")
+
 
 ----------------
 --Key mappings--
 ----------------
+
 
 vim.g.mapleader = " "                              -- Set leader key to space
 vim.g.maplocalleader = " "                         -- Set local leader key (NEW)
@@ -94,19 +104,29 @@ vim.g.maplocalleader = " "                         -- Set local leader key (NEW)
 --remap <Esc> to jj
 vim.keymap.set("i", "jj", "<Esc>", { desc = "Esc" })
 
+
 ------------
 --Behavior--
 ------------
 
--- Status line
-vim.opt.statusline = "[%<%.20f][%{&fenc==''?&enc:&fenc}]%y%m%r%h%=%([Line: %l Column: %c %P]%)"
 
 -- Replace all instances of highlighted words
 vim.keymap.set("v", "<leader>r", "\"hy:%s/<C-r>h//g<left><left>")			
 
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")	-- Move current line down
-vim.keymap.set("v", "K", ":m '>-2<CR>gv=gv")	-- Move current line up
+-- Move current line down
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")	
+-- Move current line up
+vim.keymap.set("v", "K", ":m '>-2<CR>gv=gv")	
+
+
+-- Better indenting in visual mode
+vim.keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
+vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
+
+
+-- Open netrw(file explorer) in 20% split in tree view
+vim.keymap.set("n", "<leader>e", ":20Lexplore<CR>", { desc = "Open left side file explorer"})
 
 
 -- Center screen when jumping
@@ -129,14 +149,6 @@ vim.keymap.set("n", "<leader>w", function()
     end
 end, { desc = "Create window or cycle windows" })
 
-
--- Better indenting in visual mode
-vim.keymap.set("v", "<", "<gv", { desc = "Indent left and reselect" })
-vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
-
-
--- Open netrw(file explorer) in 20% split in tree view
-vim.keymap.set("n", "<leader>e", ":20Lexplore<CR>", { desc = "Open left side file explorer"})
 
 -- Return to last edit position when opening files
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -175,9 +187,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+
 ---------------
 --Performance--
 ---------------
+
 
 vim.opt.redrawtime = 10000
 vim.opt.maxmempattern = 20000
