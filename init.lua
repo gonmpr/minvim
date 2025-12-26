@@ -144,16 +144,9 @@ vim.keymap.set("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
 
 
--- Better window navigation
-vim.keymap.set("n", "<leader>w", function()
-    local win_count = #vim.api.nvim_tabpage_list_wins(0)
-    if win_count == 1 then
-        vim.cmd("vsplit")
-    else
-        vim.cmd("wincmd w")
-    end
-end, { desc = "Create window or cycle windows" })
-
+-- Close buffer
+vim.keymap.set("n", "<leader>q", ":bd<CR>", { desc = "Close buffer" })
+vim.keymap.set("n", "<leader>w", ":w<CR>:bd<CR>", { desc = "Save and close buffer" })
 
 -- Return to last edit position when opening files
 vim.api.nvim_create_autocmd("BufReadPost", {

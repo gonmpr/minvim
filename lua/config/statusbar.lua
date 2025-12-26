@@ -3,11 +3,9 @@ local palette = require('config.colors.habamax').palette
 -- statusline colors
 vim.cmd ('highlight StatusNorm guibg=' .. palette.black .. ' guifg=' ..palette.black)
 vim.cmd ('highlight StatusLineNum guibg=' .. palette.yellow .. ' guifg=' ..palette.black)
-vim.cmd ('highlight StatusType guibg=' .. palette.black .. ' guifg=' ..palette.cyan)
-vim.cmd ('highlight StatusFile guibg=' .. palette.black .. ' guifg=' ..palette.cyan)
-vim.cmd ('highlight StatusBuffer guibg=' .. palette.black .. ' guifg=' ..palette.cyan) 
-vim.cmd ('highlight StatusLocation guibg=' .. palette.white .. ' guifg=' ..palette.black)
+vim.cmd ('highlight StatusType guibg=' .. palette.white .. ' guifg=' ..palette.black)
 vim.cmd ('highlight StatusPercent guibg=' .. palette.white .. ' guifg=' ..palette.black)
+vim.cmd ('highlight StatusBuffer guibg=' .. palette.black .. ' guifg=' ..palette.cyan) 
 --statusline mode colors
 vim.cmd ('highlight StatusModeNorm guibg=' .. palette.yellow .. ' guifg=' ..palette.black)
 vim.cmd ('highlight StatusModeInsert guibg=' .. palette.red .. ' guifg=' ..palette.black)
@@ -63,6 +61,26 @@ local function update_mode_colors()
   return mode_color
 end
 
+
+local function get_buffers()
+  local buffers = {}
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(buf) and vim.api.nvim_buf_get_name(buf) ~= "" then
+      local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
+      local is_current = buf == vim.api.nvim_get_current_buf()
+      
+      if is_current then
+        table.insert(buffers, "%#StatusModeNorm# " .. name .. " %#StatusNorm#")
+      else
+        table.insert(buffers, "%#StatusBuffer# " .. name .. " %#StatusNorm#")
+      end
+    end
+  end
+  return table.concat(buffers, " ")
+end
+
+
+
 Statusline = {}
 
 Statusline.active = function()
@@ -72,15 +90,10 @@ Statusline.active = function()
     update_mode_colors(),
     mode(),
     "%#StatusNorm# ",
-	"%#StatusType# [%Y]",
+    "%#StatusNorm# " .. get_buffers() .. " ",
+    "%= ",
     "%#StatusNorm# ",
-	"%#StatusFile# [%F] ",
-    "%#StatusNorm# ",
-	"%=",
-    "%#StatusNorm# ",
-	"%#StatusBuffer# %n ",
-    "%#StatusNorm# ",
-	"%#StatusLocation# %l,%c ",
+	"%#StatusType# %Y ",
     "%#StatusNorm# ",
 	"%#StatusPercent# %p%% ",
     "%#StatusNorm# ",

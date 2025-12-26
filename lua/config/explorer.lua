@@ -39,3 +39,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "netrw",
   command = "setl bufhidden=wipe",
 })
+
+
+
