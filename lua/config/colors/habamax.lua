@@ -7,7 +7,7 @@ local M = {}
 --'#d75f87', '#87d787', '#d7af87', 
 --'#5fafd7', '#d787d7', '#87afaf', 
 --'#bcbcbc']
-
+-- black can also be 252525 for better constrast
 M.palette = {
 	black         = '#1c1c1c',
 	red           = '#af5f5f',

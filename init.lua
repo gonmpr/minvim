@@ -87,7 +87,7 @@ vim.opt.path:append("**")                          -- include subdirectories in 
 require("config.explorer")
 require("config.autocomplete")
 require("config.statusbar")
-
+goto_def = require("config.goto-definition")
 
 ----------------
 --Key mappings--
@@ -106,6 +106,8 @@ vim.keymap.set("i", "jj", "<Esc>", { desc = "Esc" })
 --Behavior--
 ------------
 
+-- go to definition
+vim.keymap.set("n", "<leader>f", goto_def.goto_definition, { desc = "Go to definition (simple)" })
 
 -- Automatically close quotes, brackets, etc.
 vim.keymap.set('i', "'", "''<left>", { noremap = true, silent = true })
@@ -147,6 +149,7 @@ vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
 -- Close buffer
 vim.keymap.set("n", "<leader>q", ":bd<CR>", { desc = "Close buffer" })
 vim.keymap.set("n", "<leader>w", ":w<CR>:bd<CR>", { desc = "Save and close buffer" })
+
 
 -- Return to last edit position when opening files
 vim.api.nvim_create_autocmd("BufReadPost", {
