@@ -6,6 +6,7 @@ vim.cmd ('highlight StatusLineNum guibg=' .. palette.yellow .. ' guifg=' ..palet
 vim.cmd ('highlight StatusType guibg=' .. palette.white .. ' guifg=' ..palette.black)
 vim.cmd ('highlight StatusPercent guibg=' .. palette.white .. ' guifg=' ..palette.black)
 vim.cmd ('highlight StatusBuffer guibg=' .. palette.black .. ' guifg=' ..palette.cyan) 
+
 --statusline mode colors
 vim.cmd ('highlight StatusModeNorm guibg=' .. palette.yellow .. ' guifg=' ..palette.black)
 vim.cmd ('highlight StatusModeInsert guibg=' .. palette.red .. ' guifg=' ..palette.black)
@@ -61,7 +62,7 @@ local function update_mode_colors()
   return mode_color
 end
 
-
+-- get the buffers for displaying them
 local function get_buffers()
   local buffers = {}
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do

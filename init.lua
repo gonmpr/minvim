@@ -5,10 +5,21 @@
 vim.cmd.colorscheme("habamax")
 
 -- Cursor blink
-vim.opt.guicursor = "n-v-c:block,i-ci:ver25,r-cr:ver25,o:hor20,a:blinkwait700-blinkoff400-blinkon250"
-
+vim.opt.guicursor =
+  "n-v-c:block," ..
+  "i:ver25," ..
+  "r-cr:hor20," ..
+  "a:blinkwait700-blinkoff400-blinkon250"
 -- matching color
 vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FFFFFF', bg = 'NONE',})
+
+-- line color
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1e1e1e" })
+
+-- symbol column color(requires syscolumn)
+vim.api.nvim_set_hl(0, "NonText", { fg = "#1e1e1e" })
+
+
 
 --------------------
 --General-settings--
@@ -18,7 +29,7 @@ vim.api.nvim_set_hl(0, 'MatchParen', { fg = '#FFFFFF', bg = 'NONE',})
 -- Basic settings
 vim.opt.number = true                              -- Line numbers
 vim.opt.relativenumber = true                      -- Relative line numbers
-vim.opt.cursorline = true                         -- Highlight current line
+vim.opt.cursorline = true                          -- Highlight current line
 vim.opt.wrap = false                               -- Don't wrap lines
 vim.opt.scrolloff = 8                              -- Keep 10 lines above/below cursor 
 vim.opt.sidescrolloff = 8                          -- Keep 8 columns left/right of cursor
@@ -41,9 +52,9 @@ vim.opt.incsearch = true                           -- Show matches as you type
 
 -- Visual settings
 vim.opt.termguicolors = true                       -- Enable 24-bit colors
-vim.opt.signcolumn = "auto"                          -- Always show sign column
--- vim.opt.colorcolumn = "80"                         -- Show column at 100 characters
-vim.opt.cmdheight = 1                              -- Command line height
+vim.opt.signcolumn = "auto"                        -- Always show sign column
+--vim.opt.colorcolumn = "80"                       -- Show column at 100 characters
+vim.opt.cmdheight = 0                              -- Command line height
 vim.opt.completeopt = "menuone,noinsert,noselect"  -- Completion options 
 vim.opt.showmode = false                           -- Don't show mode in command line 
 vim.opt.conceallevel = 0                           -- Don't hide markup 
@@ -84,18 +95,21 @@ vim.opt.path:append("**")                          -- include subdirectories in 
 -----------
 
 
+goto_def = require("config.goto-definition")
 require("config.explorer")
 require("config.autocomplete")
 require("config.statusbar")
-goto_def = require("config.goto-definition")
-
+require("config.symcolumn").setup()
 ----------------
---Key mappings--
+--Key-mappings--
 ----------------
 
+-- Set leader key to space
+vim.g.mapleader = " "      
 
-vim.g.mapleader = " "                              -- Set leader key to space
-vim.g.maplocalleader = " "                         -- Set local leader key (NEW)
+
+-- Set local leader key (NEW)
+vim.g.maplocalleader = " "  
 
 
 --remap <Esc> to jj
@@ -106,8 +120,11 @@ vim.keymap.set("i", "jj", "<Esc>", { desc = "Esc" })
 --Behavior--
 ------------
 
--- go to definition
-vim.keymap.set("n", "<leader>f", goto_def.goto_definition, { desc = "Go to definition (simple)" })
+
+
+-- jump to definition
+vim.keymap.set("n", "<leader>g", goto_def.goto_definition, { desc = "Go to definition (simple)" })
+
 
 -- Automatically close quotes, brackets, etc.
 vim.keymap.set('i', "'", "''<left>", { noremap = true, silent = true })
@@ -147,8 +164,12 @@ vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
 
 
 -- Close buffer
-vim.keymap.set("n", "<leader>q", ":bd<CR>", { desc = "Close buffer" })
-vim.keymap.set("n", "<leader>w", ":w<CR>:bd<CR>", { desc = "Save and close buffer" })
+vim.keymap.set("n", "Q", function()
+  if vim.bo.modified then
+    vim.cmd("write")
+  end
+  vim.cmd("bd")
+end, { desc = "Save if needed & close buffer" })
 
 
 -- Return to last edit position when opening files
@@ -187,6 +208,21 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 		vim.highlight.on_yank({ timeout = 200, visual = true })
 	end,
 })
+
+
+-- Temporal buffer
+local scratch_buf = nil
+
+vim.keymap.set("n", "<leader>s", function()
+  if scratch_buf and vim.api.nvim_buf_is_valid(scratch_buf) then
+    vim.cmd("buffer #")
+    return
+  end
+
+  scratch_buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_option(scratch_buf, "bufhidden", "wipe")
+  vim.api.nvim_set_current_buf(scratch_buf)
+end, { desc = "Scratch buffer" })
 
 
 ---------------
