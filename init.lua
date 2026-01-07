@@ -100,6 +100,7 @@ require("config.explorer")
 require("config.autocomplete")
 require("config.statusbar")
 require("config.symcolumn").setup()
+
 ----------------
 --Key-mappings--
 ----------------
@@ -162,7 +163,6 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centered)" })
 vim.keymap.set("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
 
-
 -- Close buffer
 vim.keymap.set("n", "Q", function()
   if vim.bo.modified then
@@ -223,6 +223,29 @@ vim.keymap.set("n", "<leader>s", function()
   vim.api.nvim_buf_set_option(scratch_buf, "bufhidden", "wipe")
   vim.api.nvim_set_current_buf(scratch_buf)
 end, { desc = "Scratch buffer" })
+
+
+
+
+-- Terminal buffer
+
+-- open with leader + t
+vim.keymap.set("n", "<leader>t", function()
+
+  vim.cmd("terminal")
+
+  vim.bo.bufhidden = "wipe"
+  vim.bo.swapfile = false
+  vim.bo.buflisted = false
+
+  vim.cmd("startinsert")
+end, { desc = "Open ephemeral terminal" })
+
+-- close terminal and goes back to last buffer
+vim.keymap.set("t", "<Esc>",
+  "<C-\\><C-n>:buffer #<CR>",
+  { desc = "Return from terminal" }
+)
 
 
 ---------------
