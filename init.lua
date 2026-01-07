@@ -85,10 +85,9 @@ vim.opt.autochdir = false                          -- Don't auto change director
 vim.opt.selection = "exclusive"                    -- Selection behavior
 vim.opt.mouse = "a"                                -- Enable mouse support
 vim.opt.clipboard:append("unnamedplus")            -- Use system clipboard
-vim.opt.modifiable = true                          -- Allow buffer modifications
 vim.opt.encoding = "UTF-8"                         -- Set encoding
 vim.opt.path:append("**")                          -- include subdirectories in search
-
+vim.opt.shortmess:append("c")
 
 -----------
 --Require--
@@ -161,10 +160,9 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centered)" })
 
 -- Buffer navigation
 vim.keymap.set("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
 
--- Close buffer
-vim.keymap.set("n", "Q", function()
+-- Save and close buffer
+vim.keymap.set("n", "<S-Tab>", function()
   if vim.bo.modified then
     vim.cmd("write")
   end
@@ -210,24 +208,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 
--- Temporal buffer
-local scratch_buf = nil
-
-vim.keymap.set("n", "<leader>s", function()
-  if scratch_buf and vim.api.nvim_buf_is_valid(scratch_buf) then
-    vim.cmd("buffer #")
-    return
-  end
-
-  scratch_buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_option(scratch_buf, "bufhidden", "wipe")
-  vim.api.nvim_set_current_buf(scratch_buf)
-end, { desc = "Scratch buffer" })
-
-
-
-
--- Terminal buffer
+-- Ephemeral terminal buffer
 
 -- open with leader + t
 vim.keymap.set("n", "<leader>t", function()
@@ -242,9 +223,9 @@ vim.keymap.set("n", "<leader>t", function()
 end, { desc = "Open ephemeral terminal" })
 
 -- close terminal and goes back to last buffer
-vim.keymap.set("t", "<Esc>",
+vim.keymap.set("t", "<S-Tab>",
   "<C-\\><C-n>:buffer #<CR>",
-  { desc = "Return from terminal" }
+  { desc = "close terminal" }
 )
 
 
