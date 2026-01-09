@@ -13,6 +13,7 @@ A minimal approach to nvim, no plugins, no lsp.
 - `<Tab>` → next buffer
 - `<S-Tab>` → save (if modified) and close current buffer
 - - `<leader>e` → open/close netrw in left split (20%)
+- - `<leader>f` → search a file in actual folder and children folders
 
 ### Ephemeral terminal
 - `<leader>t` → open terminal buffer
