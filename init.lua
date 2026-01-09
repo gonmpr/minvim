@@ -115,7 +115,6 @@ vim.g.maplocalleader = " "
 --remap <Esc> to jj
 vim.keymap.set("i", "jj", "<Esc>", { desc = "Esc" })
 
-
 ------------
 --Behavior--
 ------------
@@ -236,3 +235,4 @@ vim.keymap.set("t", "<S-Tab>",
 
 vim.opt.redrawtime = 10000
 vim.opt.maxmempattern = 20000
+vim.opt.synmaxcol = 300

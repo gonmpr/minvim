@@ -36,12 +36,12 @@ local mode_label = {
 }
 
 local function update_mode_colors()
-  local m = vim.api.nvim_get_mode().mode
+  local m = vim.api.nvim_get_mode().mode:sub(1, 1)
   return "%#" .. (mode_hl[m] or "StatusModeNorm") .. "#"
 end
 
 local function mode_text()
-  local m = vim.api.nvim_get_mode().mode
+  local m = vim.api.nvim_get_mode().mode:sub(1, 1)
   return mode_label[m] or m
 end
 
