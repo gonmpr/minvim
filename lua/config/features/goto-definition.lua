@@ -15,7 +15,7 @@ local function definition_patterns(word)
     "^%s*([%w_]+%s+)*[%w_]+%s*%*?%s*" .. word .. "%s*%(",
 
     -- variables / simple types
---  "^%s*" .. word .. "%s*=",
+    "^%s*" .. word .. "%s*=",
   }
 end
 
@@ -63,4 +63,9 @@ function M.goto_definition()
   vim.notify("Definition not found: " .. word, vim.log.levels.INFO)
 end
 
+vim.keymap.set("n", "<leader>g", M.goto_definition, {
+  desc = "Go to definition (simple)",
+})
+
 return M
+

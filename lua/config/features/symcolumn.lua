@@ -1,16 +1,12 @@
 
-local M = {}
-
 local ns = vim.api.nvim_create_namespace("sym_column")
 
--- setup
 local GUIDE_COL  = 80
 local GUIDE_CHAR = "│"
 local GUIDE_HL   = "NonText"
 
 local function draw()
   local buf = vim.api.nvim_get_current_buf()
-  local win = vim.api.nvim_get_current_win()
 
   vim.api.nvim_buf_clear_namespace(buf, ns, 0, -1)
 
@@ -33,19 +29,15 @@ local function draw()
   end
 end
 
-function M.setup()
-  vim.api.nvim_create_autocmd(
-    {
-      "BufEnter",
-      "WinScrolled",
-      "CursorMoved",
-      "CursorMovedI",
-      "TextChanged",
-      "TextChangedI",
-      "VimResized",
-    },
-    { callback = draw }
-  )
-end
-
-return M
+vim.api.nvim_create_autocmd(
+  {
+    "BufEnter",
+    "WinScrolled",
+    "CursorMoved",
+    "CursorMovedI",
+    "TextChanged",
+    "TextChangedI",
+    "VimResized",
+  },
+  { callback = draw }
+)

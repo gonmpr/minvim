@@ -1,4 +1,4 @@
-
+-- popup autocomplete, use tab to navigate
 vim.opt.pumheight = 3
 vim.opt.completeopt = { "menuone", "popup", "fuzzy","noselect" }
 vim.opt.complete = ".,b"
