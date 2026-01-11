@@ -33,13 +33,24 @@ end
 
 function M.find()
   local buf, win = open_floating_window()
-
-  -- temp file for fzf output
   local tmpfile = vim.fn.tempname()
 
-  -- run fzf interactively, redirect selection
+  local default_cmd = [[
+    if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+      git ls-files
+    else
+      find . -type f \
+        -not -path '*/.git/*' \
+        -not -path '*/__pycache__/*'
+    fi
+  ]]
+
   vim.fn.termopen(
-    { "sh", "-c", "fzf > " .. tmpfile },
+    {
+      "sh",
+      "-c",
+      "FZF_DEFAULT_COMMAND=\"" .. default_cmd .. "\" fzf > " .. tmpfile,
+    },
     {
       on_exit = function()
         pcall(vim.api.nvim_win_close, win, true)
@@ -57,10 +68,9 @@ function M.find()
   vim.cmd.startinsert()
 end
 
-
 -- keymap
 vim.keymap.set("n", "<leader>f", M.find, {
-  desc = "Find file (fzf)",
+  desc = "Find file (fzf + git ls-files)",
 })
 
 return M

@@ -1,5 +1,5 @@
-
 vim.cmd.colorscheme("habamax")
+
 -- Basics
 require("config.core.settings")
 require("config.core.keymaps")

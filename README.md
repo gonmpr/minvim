@@ -2,7 +2,7 @@
 # MINVIM
 A minimal approach to Neovim.  
 No plugins, no LSP. Just core features and small Lua modules.
-
+requires NVIM 0.11+
 
 ## Leader key
 - `<leader>` = Space
