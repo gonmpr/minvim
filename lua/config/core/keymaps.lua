@@ -35,9 +35,10 @@ vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 
 -- Buffer navigation
 vim.keymap.set("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
 
 -- Save and close buffer
-vim.keymap.set("n", "<S-Tab>", function()
+vim.keymap.set("n", "<leader>q", function()
   if vim.bo.modified then
     vim.cmd("write")
   end
@@ -46,24 +47,21 @@ end, { desc = "Save if needed & close buffer" })
 
 
 -- open terminal 
-vim.keymap.set("n", "<leader>t", function()
-  vim.cmd("terminal")
-  vim.bo.bufhidden = "wipe"
-  vim.bo.swapfile = false
-  vim.bo.buflisted = false
-  vim.cmd("startinsert")
-end, { desc = "Open ephemeral terminal" })
-
+--vim.keymap.set("n", "<leader>t", function()
+--  vim.cmd("terminal")
+--  vim.bo.bufhidden = "wipe"
+--  vim.bo.swapfile = false
+--  vim.bo.buflisted = false
+--  vim.cmd("startinsert")
+--end, { desc = "Open ephemeral terminal" })
+--
 -- close terminal 
-vim.keymap.set("t", "<S-Tab>",
-  "<C-\\><C-n>:buffer #<CR>",
-  { desc = "close terminal" }
-)
+--vim.keymap.set("t", "<S-Tab>",
+--  "<C-\\><C-n>:buffer #<CR>",
+--  { desc = "close terminal" }
+--)
+--
 
 -- Open netrw(file explorer) in 20% split in tree view
 vim.keymap.set("n", "<leader>e", ":20Lexplore<CR>", { desc = "Open left side file explorer"})
 
--- finder
-vim.keymap.set("n", "<leader>f", ":find ",{
-  desc = "Find file (recursive, popup)",
-})
