@@ -1,9 +1,21 @@
+
 local palette = require("config.colors.habamax").palette
 
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "FloatBorder", { fg = palette.gray, bg = "NONE" })
 
 local M = {}
+
+local function normalize_path(path)
+  if not path or path == "" then
+    return nil
+  end
+
+  -- remove leading ./ if present
+  path = path:gsub("^%./", "")
+
+  return path
+end
 
 local function open_floating_window()
   local width  = math.floor(vim.o.columns * 0.8)
@@ -32,12 +44,12 @@ local function open_floating_window()
 end
 
 function M.find()
-  local buf, win = open_floating_window()
+  local _, win = open_floating_window()
   local tmpfile = vim.fn.tempname()
 
-  local default_cmd = [[
+  local cmd = [[
     if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-      git ls-files
+      git ls-files --cached --others --exclude-standard
     else
       find . -type f \
         -not -path '*/.git/*' \
@@ -49,14 +61,21 @@ function M.find()
     {
       "sh",
       "-c",
-      "FZF_DEFAULT_COMMAND=\"" .. default_cmd .. "\" fzf > " .. tmpfile,
+      "FZF_DEFAULT_COMMAND=\"" .. cmd .. "\" fzf --print-query > " .. tmpfile,
     },
     {
       on_exit = function()
         pcall(vim.api.nvim_win_close, win, true)
 
-        local file = vim.fn.readfile(tmpfile)[1]
+        local lines = vim.fn.readfile(tmpfile)
         vim.fn.delete(tmpfile)
+
+        if #lines == 0 then
+          return
+        end
+
+        local query = normalize_path(lines[1])
+        local file  = normalize_path(lines[2]) or query
 
         if file and file ~= "" then
           vim.cmd.edit(vim.fn.fnameescape(file))
@@ -68,9 +87,8 @@ function M.find()
   vim.cmd.startinsert()
 end
 
--- keymap
 vim.keymap.set("n", "<leader>f", M.find, {
-  desc = "Find file (fzf + git ls-files)",
+  desc = "Find or create file (fzf)",
 })
 
 return M
