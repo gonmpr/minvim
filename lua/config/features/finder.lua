@@ -77,7 +77,7 @@ function M.find()
         local query = normalize_path(lines[1])
         local file  = normalize_path(lines[2]) or query
 
-        if file and file ~= "" then
+        if file and file ~= "" and vim.fn.filereadable(file) == 1 then
           vim.cmd.edit(vim.fn.fnameescape(file))
         end
       end,
@@ -87,6 +87,7 @@ function M.find()
   vim.cmd.startinsert()
 end
 
+-- keymap
 vim.keymap.set("n", "<leader>f", M.find, {
   desc = "Find or create file (fzf)",
 })
