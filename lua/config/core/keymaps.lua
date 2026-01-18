@@ -45,23 +45,11 @@ vim.keymap.set("n", "<leader>q", function()
   vim.cmd("bd")
 end, { desc = "Save if needed & close buffer" })
 
-
--- open terminal 
---vim.keymap.set("n", "<leader>t", function()
---  vim.cmd("terminal")
---  vim.bo.bufhidden = "wipe"
---  vim.bo.swapfile = false
---  vim.bo.buflisted = false
---  vim.cmd("startinsert")
---end, { desc = "Open ephemeral terminal" })
---
--- close terminal 
---vim.keymap.set("t", "<S-Tab>",
---  "<C-\\><C-n>:buffer #<CR>",
---  { desc = "close terminal" }
---)
---
-
--- Open netrw(file explorer) in 20% split in tree view
-vim.keymap.set("n", "<leader>e", ":20Lexplore<CR>", { desc = "Open left side file explorer"})
-
+-- Open explorer
+vim.keymap.set("n", "<leader>e", function()
+  if vim.bo.filetype == "netrw" then
+    vim.cmd("bd")
+  else
+    vim.cmd("Ex")
+  end
+end, { silent = true, desc = "Toggle explorer (netrw)" })

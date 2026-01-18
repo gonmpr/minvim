@@ -52,6 +52,13 @@ vim.opt.lazyredraw = true                          -- Don't redraw during macros
 vim.opt.synmaxcol = 300                            -- Syntax highlighting limit
 
 
+-- Explorer
+vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 3   -- tree
+vim.g.netrw_keepdir = 1
+vim.g.netrw_fastbrowse = 0
+vim.g.netrw_sort_sequence = [[[\/]$,*]]
+
 
 -- File handling
 vim.opt.backup = false                             -- Don't create backup files

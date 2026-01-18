@@ -6,7 +6,6 @@ require("config.core.keymaps")
 require("config.core.autocmds")
 -- Utilities
 require("config.features.autocomplete")
-require("config.features.explorer")
 require("config.features.finder")
 require("config.features.goto-definition")
 require("config.features.terminal")
