@@ -19,13 +19,12 @@ vim.keymap.set('i', "{", "{}<left>", { noremap = true, silent = true })
 
 
 -- Replace all instances of highlighted words
-vim.keymap.set("v", "<leader>r", "\"hy:%s/<C-r>h//g<left><left>")			
+vim.keymap.set("v", "r", "\"hy:%s/<C-r>h//g<left><left>")			
 
-
--- Move current line down
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")	
--- Move current line up
-vim.keymap.set("v", "K", ":m '>-2<CR>gv=gv")	
+-- Move current line down 
+vim.keymap.set("v", "J", ":m '>+1<CR>gv") 
+-- Move current line up 
+vim.keymap.set("v", "K", ":m '<-2<CR>gv")
 
 
 -- Better indenting in visual mode

@@ -32,6 +32,9 @@ except the floating bufers, which can be leave only using `<S-Tab>`
   (custom implementation, no LSP)
 
 ## Editing behavior
+
+- Visual mode replace:
+  - `r` → replace selection
 - Visual mode line move:
   - `J` → move line down
   - `K` → move line up
