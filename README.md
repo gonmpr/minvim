@@ -19,7 +19,7 @@ requires NVIM 0.11+
 - `<Esc><Esc>` → exit and close floating buffers 
 
 ## File explorer
-- `<leader>e` → open netrw in left split (20%, tree view)
+- `<leader>e` → open explorer in new buffer 
 
 ## File finder
 - `<leader>f` → fuzzy find files (requires "fzf" installed)
@@ -36,11 +36,9 @@ requires NVIM 0.11+
 - Visual mode line move:
   - `J` → move line down
   - `K` → move line up
-- Center screen on half-page jumps:
-  - `<C-d>` / `<C-u>`
 
 ## Notes
 - color is hardcoded in statusbar, terminal and finder files. (sorry)
 - No persistent UI state
 - No background processes
-- Everything is explicit and hackable
+- Everything is explicit and hackable (sorry for the color, again)
