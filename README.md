@@ -12,6 +12,7 @@ requires NVIM 0.11+
 ## Buffer navigation
 - `<Tab>` → next buffer
 - `<S-Tab>` → previous buffer
+
 some buffers are ephemerals, they autoclose when you leave them,
 ephemeral buffers only can be leave using `<S-Tab>` or `<Tab>`,
 except the floating bufers, which can be leave only using `<S-Tab>`
