@@ -1,4 +1,3 @@
-
 # MINVIM
 A minimal approach to Neovim.  
 No plugins, no LSP. Just core features and small Lua modules.
@@ -13,13 +12,12 @@ requires NVIM 0.11+
 ## Buffer navigation
 - `<Tab>` → next buffer
 - `<S-Tab>` → previous buffer
-
-## Buffer / window management
-- `<leader>q` → close current buffer   
-- `<Esc><Esc>` → exit and close floating buffers 
+some buffers are ephemerals, they autoclose when you leave them,
+ephemeral buffers only can be leave using `<S-Tab>` or `<Tab>`,
+except the floating bufers, which can be leave only using `<S-Tab>`
 
 ## File explorer
-- `<leader>e` → open explorer in new buffer 
+- `<leader>e` → open explorer in new buffer (ephemeral) 
 
 ## File finder
 - `<leader>f` → fuzzy find files (requires "fzf" installed)
@@ -29,7 +27,8 @@ requires NVIM 0.11+
   (buffer is wiped on close, always starts in insert mode)
 
 ## Code navigation
-- `<leader>g` → go to definition  
+- `gd` → go to definition  
+- `gD` → go back  
   (custom implementation, no LSP)
 
 ## Editing behavior
@@ -37,8 +36,3 @@ requires NVIM 0.11+
   - `J` → move line down
   - `K` → move line up
 
-## Notes
-- color is hardcoded in statusbar, terminal and finder files. (sorry)
-- No persistent UI state
-- No background processes
-- Everything is explicit and hackable (sorry for the color, again)

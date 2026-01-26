@@ -87,6 +87,28 @@ function M.find()
   vim.cmd.startinsert()
 end
 
+-- change buffer closes terminal (normal + terminal mode)
+vim.keymap.set({ "n", "t" }, "<S-Tab>", function()
+  local buf = vim.api.nvim_get_current_buf()
+
+  if vim.bo[buf].buftype ~= "terminal" then
+    return
+  end
+
+  -- exit terminal mode if needed
+  if vim.fn.mode() == "t" then
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
+      "n",
+      false
+    )
+  end
+
+  vim.cmd("bd!")
+end, {
+  desc = "Close terminal(fzf)",
+})
+
 -- keymap
 vim.keymap.set("n", "<leader>f", M.find, {
   desc = "Find or create file (fzf)",

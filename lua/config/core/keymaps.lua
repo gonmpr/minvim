@@ -37,14 +37,6 @@ vim.keymap.set("v", ">", ">gv", { desc = "Indent right and reselect" })
 vim.keymap.set("n", "<Tab>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "Previous buffer" })
 
--- Save and close buffer
-vim.keymap.set("n", "<leader>q", function()
-  if vim.bo.modified then
-    vim.cmd("write")
-  end
-  vim.cmd("bd")
-end, { desc = "Save if needed & close buffer" })
-
 -- Open explorer
 vim.keymap.set("n", "<leader>e", function()
   if vim.bo.filetype == "netrw" then

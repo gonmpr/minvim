@@ -66,8 +66,8 @@ vim.keymap.set("n", "<leader>t", M.toggle, {
   desc = "Open floating terminal",
 })
 
--- double Esc closes terminal (normal + terminal mode)
-vim.keymap.set({ "n", "t" }, "<Esc><Esc>", function()
+-- change buffer closes terminal (normal + terminal mode)
+vim.keymap.set({ "n", "t" }, "<S-Tab>", function()
   local buf = vim.api.nvim_get_current_buf()
 
   if vim.bo[buf].buftype ~= "terminal" then

@@ -41,18 +41,20 @@ function M.goto_definition()
 
   local current_buf = vim.api.nvim_get_current_buf()
 
-  -- 1. Search in file
+  -- 1. Search in current buffer
   local line = search_in_buffer(current_buf, word)
   if line then
+    vim.cmd("normal! mZ")
     vim.api.nvim_win_set_cursor(0, { line, 0 })
     return
   end
 
-  -- 2. Search in buffers 
+  -- 2. Search in other buffers
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
     if bufnr ~= current_buf and vim.api.nvim_buf_is_loaded(bufnr) then
       local l = search_in_buffer(bufnr, word)
       if l then
+        vim.cmd("normal! mZ")
         vim.api.nvim_set_current_buf(bufnr)
         vim.api.nvim_win_set_cursor(0, { l, 0 })
         return
@@ -63,9 +65,17 @@ function M.goto_definition()
   vim.notify("Definition not found: " .. word, vim.log.levels.INFO)
 end
 
-vim.keymap.set("n", "<leader>g", M.goto_definition, {
-  desc = "Go to definition (simple)",
+function M.goto_back()
+  vim.cmd("normal! `Z")
+end
+
+-- mappings
+vim.keymap.set("n", "gd", M.goto_definition, {
+  desc = "Go to definition",
+})
+
+vim.keymap.set("n", "gD", M.goto_back, {
+  desc = "Go back",
 })
 
 return M
-
