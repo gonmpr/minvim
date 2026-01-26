@@ -28,8 +28,8 @@ except the floating bufers, which can be leave only using `<S-Tab>`
   (buffer is wiped on close, always starts in insert mode)
 
 ## Code navigation
-- `gd` → go to definition  
-- `gD` → go back  
+- `]d` → go to definition  
+- `[d` → go back  
   (custom implementation, no LSP)
 
 ## Editing behavior

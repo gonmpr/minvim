@@ -70,11 +70,11 @@ function M.goto_back()
 end
 
 -- mappings
-vim.keymap.set("n", "gd", M.goto_definition, {
+vim.keymap.set("n", "]d", M.goto_definition, {
   desc = "Go to definition",
 })
 
-vim.keymap.set("n", "gD", M.goto_back, {
+vim.keymap.set("n", "[d", M.goto_back, {
   desc = "Go back",
 })
 
